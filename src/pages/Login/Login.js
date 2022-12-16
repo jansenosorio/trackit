@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Form, Register } from './style.js'
 import { Link } from 'react-router-dom'
 import { BASE_URL } from '../../constants/url'
 import { useState } from 'react'
 import { ThreeDots } from 'react-loader-spinner'
 import axios from 'axios'
+import PageContext from '../../constants/PageContext.js'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
+  const setUserToken = useContext(PageContext)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -22,7 +24,10 @@ const Login = () => {
     } else {
       axios
         .post(`${BASE_URL}/auth/login`, body)
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res)
+          setUserToken(res.data)
+        })
         .catch(err => {
           alert(err.response.data.message)
           setIsDisabled(false)
@@ -49,7 +54,7 @@ const Login = () => {
           disabled={isDisabled}
           data-test="password-input"
         ></input>
-        <button type="submit" data-test="login-btn">
+        <button type="submit" data-test="login-btn" disabled={isDisabled}>
           {isDisabled ? (
             <ThreeDots
               height="50"
