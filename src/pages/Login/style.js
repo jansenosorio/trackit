@@ -34,6 +34,9 @@ export const Form = styled.form`
     line-height: 26px;
     text-align: center;
     color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     :hover {
       transition: all 500ms ease;
