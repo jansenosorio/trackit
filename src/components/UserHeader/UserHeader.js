@@ -10,7 +10,9 @@ const UserHeader = props => {
   return (
     <Header>
       <h1>Meus Hábitos</h1>
-      <button onClick={handleClick}>+</button>
+      <button onClick={handleClick} data-test="habit-create-btn">
+        +
+      </button>
     </Header>
   )
 }

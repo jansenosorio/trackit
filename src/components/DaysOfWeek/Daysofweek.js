@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Daysofweek = props => {
   const days = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']
-  const { isClicked, setIsClicked } = props
+  const { isClicked, setIsClicked, isDisabled } = props
 
   const handleClick = i => {
     const newArr = [...isClicked]
@@ -25,6 +25,8 @@ const Daysofweek = props => {
           isClicked={isClicked.includes(i)}
           key={i}
           onClick={() => handleClick(i)}
+          data-test="habit-day"
+          disabled={isDisabled}
         >
           {elm}
         </Buttons>
@@ -43,7 +45,7 @@ const ButtonsContainer = styled.div`
   margin-top: 6px;
 `
 
-const Buttons = styled.div`
+const Buttons = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;

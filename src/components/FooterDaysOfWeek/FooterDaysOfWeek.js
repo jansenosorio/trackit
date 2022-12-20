@@ -3,8 +3,17 @@ import { useContext } from 'react'
 import Context from '../../constants/PageContext'
 import axios from 'axios'
 import { BASE_URL } from '../../constants/url'
+import { ThreeDots } from 'react-loader-spinner'
+
 const FooterDaysOfWeek = props => {
-  const { setController, habitName, isClicked } = props
+  const {
+    setController,
+    habitName,
+    isClicked,
+    isDisabled,
+    setIsDisabled,
+    setHabits
+  } = props
   const { authToken } = useContext(Context)
 
   const handleClick = () => {
@@ -24,14 +33,43 @@ const FooterDaysOfWeek = props => {
     }
 
     const promise = axios.post(`${BASE_URL}/habits`, body, config)
-    promise.then(res => console.log(res))
-    promise.catch(err => console.log(err))
+    promise.then(res => {
+      setIsDisabled(true)
+      setController(0)
+    })
+    promise.catch(err => {
+      alert(err.response)
+      setIsDisabled(false)
+    })
   }
 
   return (
     <Footer>
-      <h1 onClick={handleClick}>Cancelar</h1>
-      <button onClick={handleSubmit}>Salvar</button>
+      <button
+        disabled={isDisabled}
+        onClick={handleClick}
+        data-test="habit-create-cancel-btn"
+      >
+        Cancelar
+      </button>
+      <button
+        disabled={isDisabled}
+        onClick={handleSubmit}
+        data-test="habit-create-save-btn"
+      >
+        {isDisabled ? (
+          <ThreeDots
+            height="40"
+            width="40"
+            radius="9"
+            color="#FFFFFF"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        ) : (
+          'Salvar'
+        )}
+      </button>
     </Footer>
   )
 }
@@ -47,10 +85,6 @@ const Footer = styled.div`
   gap: 23px;
   margin-top: 30px;
 
-  h1 {
-    color: #52b6ff;
-  }
-
   button {
     width: 84px;
     height: 35px;
@@ -65,5 +99,14 @@ const Footer = styled.div`
     line-height: 20px;
     text-align: center;
     color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    :nth-child(1) {
+      background-color: white;
+      color: #52b6ff;
+    }
   }
 `
