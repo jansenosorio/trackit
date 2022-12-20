@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import PageContext from '../../constants/PageContext'
 
 const Header = () => {
-  const userToken = useContext(PageContext)
+  const { userToken } = useContext(PageContext)
   return (
     <LogoBar>
       <img src={userlogo} />

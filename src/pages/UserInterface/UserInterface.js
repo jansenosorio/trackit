@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import UserHabits from '../../pages/UserHabits/UserHabits'
-import Header from '../Header/Header'
+import Header from '../../components/Header/Header'
 
 const UserInterface = () => {
   return (

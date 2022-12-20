@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Form, Register } from './style.js'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BASE_URL } from '../../constants/url'
 import { useState } from 'react'
 import { ThreeDots } from 'react-loader-spinner'
@@ -8,10 +8,11 @@ import axios from 'axios'
 import PageContext from '../../constants/PageContext.js'
 
 const Login = () => {
+  const { setUserToken } = useContext(PageContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isDisabled, setIsDisabled] = useState(false)
-  const setUserToken = useContext(PageContext)
+  const navigate = useNavigate('/habitos')
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -22,16 +23,18 @@ const Login = () => {
       alert('Favor inserir seus dados!')
       setIsDisabled(false)
     } else {
-      axios
-        .post(`${BASE_URL}/auth/login`, body)
-        .then(res => {
-          console.log(res)
-          setUserToken(res.data)
-        })
-        .catch(err => {
-          alert(err.response.data.message)
-          setIsDisabled(false)
-        })
+      const promise = axios.post(`${BASE_URL}/auth/login`, body)
+      promise.then(res => {
+        console.log(res)
+        setUserToken(res.data)
+        if (res.status === 200) {
+          navigate('/habitos')
+        }
+      })
+      promise.catch(err => {
+        alert(err.response.data.message)
+        setIsDisabled(false)
+      })
     }
   }
 

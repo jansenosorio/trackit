@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ThreeDots } from 'react-loader-spinner'
 import axios from 'axios'
 import { BASE_URL } from '../../constants/url'
+import Logo from '../../components/Logo/Logo'
 
 const UserRegistration = () => {
   const [email, setEmail] = useState('')
@@ -35,6 +36,7 @@ const UserRegistration = () => {
 
   return (
     <>
+      <Logo />
       <Form onSubmit={e => handleSubmit(e)}>
         <input
           type="text"
